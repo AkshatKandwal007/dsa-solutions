@@ -1,40 +1,17 @@
 /*
  * Problem: Two Sum (LeetCode 1)
  * Pattern: Arrays & Hashing
+ * Time: O(n) | Space: O(n)
  *
- * Two approaches included:
- *   1. Brute force baseline — O(n^2) time, O(1) space
- *   2. Optimized hash map   — O(n)   time, O(n) space
+ * Idea: Store each value's index in a hash table as we go. For each
+ * number, check whether its complement (target - num) has already
+ * been seen — if so, we have our pair in a single pass.
  *
- * Key insight: instead of checking every pair, store each value's
- * index as you go and look up whether its complement (target - num)
- * has already been seen — reducing the search to a single pass.
+ * Note: C has no built-in hash map, so we implement a simple
+ * open-addressing table with linear probing.
  */
 
 #include <stdlib.h>
-
-/* ---------- Approach 1: Brute force baseline — O(n^2) ---------- */
-int* twoSum_brute(int* nums, int numsSize, int target, int* returnSize) {
-    for (int i = 0; i < numsSize; i++) {
-        for (int j = i + 1; j < numsSize; j++) {
-            if (nums[i] + nums[j] == target) {
-                int* result = malloc(2 * sizeof(int));
-                result[0] = i;
-                result[1] = j;
-                *returnSize = 2;
-                return result;
-            }
-        }
-    }
-    *returnSize = 0;
-    return NULL;
-}
-
-/* ---------- Approach 2: Optimized hash map — O(n) ---------- */
-/*
- * C has no built-in hash map, so we implement a simple open-addressing
- * hash table keyed by value. Each slot stores a value and its index.
- */
 
 #define TABLE_SIZE 20011   /* a prime larger than the max input size */
 
